@@ -10,12 +10,13 @@ public class Application {
 
     ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
     BatchService batchService = context.getBean(BatchService.class);
-    IntStream.range(0, 200).forEach(x -> batchService.longRunningMethod());
-    batchService.quickMethod();
-    batchService.quickMethod();
-    batchService.quickMethod();
-    batchService.quickMethod();
-    batchService.quickMethod();
+    IntStream.range(0, 18).forEach(entry -> batchService.longRunningMethod());
+    IntStream.range(0, 10).forEach(entry -> batchService.quickMethod());
+    try {
+      batchService.throwsException();
+    } catch (Exception e) {
+      System.out.println("Will not be caught!");
+    }
     System.out.println("Completed from " + Utils.threadName());
   }
 }

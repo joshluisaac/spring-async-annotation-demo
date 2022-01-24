@@ -7,26 +7,25 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@Async("threadPoolTaskExecutor")
 public class BatchService {
 
-  @Async("threadPoolTaskExecutor")
   public void longRunningMethod() {
-    doWork(40000);
+    doWork(10000);
   }
 
-  @Async("threadPoolTaskExecutor")
   public void quickMethod() {
     doWork(400);
+  }
+
+  public void returnsSomething() {}
+
+  public void throwsException() {
+    throw new RuntimeException("Error occurred.");
   }
 
   private void doWork(int timeout) {
     waitFor(timeout);
     System.out.println("Completed work from " + threadName());
   }
-
-  @Async("threadPoolTaskExecutor")
-  public void returnsSomething() {}
-
-  @Async("threadPoolTaskExecutor")
-  public void throwsException() {}
 }
